@@ -16,5 +16,5 @@ This will connect to Azure AD and export the collected data to an Excel file nam
 Specify the full path and name for the output Excel file.
 # Notes
 
-    The Excel file will contain two sheets: one for the list of applications and their secrets and certificates count, and one for the details of each secret and certificate.
-    The script sorts the data by the application display name before exporting.
+The Excel file will contain two sheets: one for the list of applications and their secrets and certificates count, and one for the details of each secret and certificate.  
+The script sorts the data by the application display name before exporting.
