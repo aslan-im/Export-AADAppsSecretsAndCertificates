@@ -5,6 +5,7 @@
     This script uses the AzureAD and ImportExcel PowerShell modules to connect to Azure AD, retrieve information about all registered applications and their secrets and certificates, and export the data to an Excel file. The Excel file will contain two sheets: one for the list of applications and their secrets and certificates count, and one for the details of each secret and certificate. The script also sorts the data by the application display name before exporting.
 .NOTES
     Make sure to install the AzureAD and ImportExcel modules before running this script.
+    Version 1.1.0
 .EXAMPLE
     .\Export-AADAppsSecretsAndCertificates.ps1
     Connects to Azure AD and exports the collected data to an Excel file named "AADAppsSecrets_YYYY-MM-DD.xlsx" in the current directory.
@@ -39,6 +40,7 @@ foreach($App in $AllApps){
     $AppCertificatesCount = $AppCertificates.count
     $AppsWithSecretsAndCertificatesCount += New-Object PSObject -Property @{
         AppId = $App.AppId
+        ObjectId = $App.ObjectId
         DisplayName = $App.DisplayName
         SecretsCount = $AppSecretsCount
         CertificatesCount = $AppCertificatesCount
@@ -49,6 +51,7 @@ foreach($App in $AllApps){
         foreach($Secret in $AppSecrets){
             $AllAppsWithSecrets += New-Object PSObject -Property @{
                 AppId = $App.AppId
+                ObjectId = $App.ObjectId
                 DisplayName = $App.DisplayName
                 SecretKeyID = $Secret.KeyId
                 SecretStartDate = $Secret.StartDate
@@ -65,6 +68,7 @@ foreach($App in $AllApps){
         foreach($Certificate in $AppCertificates){
             $AllAppsWithSecrets += New-Object PSObject -Property @{
                 AppId = $App.AppId
+                ObjectId = $App.ObjectId
                 DisplayName = $App.DisplayName
                 SecretKeyID = $null
                 SecretStartDate = $null
@@ -81,6 +85,7 @@ foreach($App in $AllApps){
 # Export to Excel
 $SecretsSelector = @(
     "AppId",
+    "ObjectId",
     "DisplayName",
     "SecretKeyID",
     "SecretStartDate",
@@ -92,6 +97,7 @@ $SecretsSelector = @(
 
 $AppsListSelector = @(
     "AppId",
+    "ObjectId",
     "DisplayName",
     "SecretsCount",
     "CertificatesCount",
